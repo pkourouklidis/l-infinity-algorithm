@@ -7,6 +7,8 @@ def detector(trainSet, liveSet, parameters):
     enc = OneHotEncoder()
     a = enc.fit_transform(feature1.reshape(-1,1)).toarray()
     b = enc.fit_transform(feature2.reshape(-1,1)).toarray()
-    l_inf = np.linalg.norm(np.abs(a.sum(axis=0)/a.shape[0] - b.sum(axis=0)/b.shape[0]), ord=np.inf)
+    diff = np.abs(a.sum(axis=0)/a.shape[0] - b.sum(axis=0)/b.shape[0])
+    print(diff)
+    l_inf = np.linalg.norm(diff, ord=np.inf)
     threshold = float (parameters.get("threshold", 0.10))
-    return int(l_inf < threshold), l_inf
+    return int(l_inf > threshold), l_inf
